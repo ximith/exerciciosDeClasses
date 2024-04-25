@@ -2,6 +2,9 @@ public class Usuario {
     private String id;
     private String nome;
     private String email;
+    public Usuario(){
+
+    }
     public Usuario(String id, String nome, String email)
     {
         this.id = id;
