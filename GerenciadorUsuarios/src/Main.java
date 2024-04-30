@@ -1,3 +1,4 @@
+import java.util.List;
 import java.util.Scanner;
 
 public class Main {
@@ -6,7 +7,7 @@ public class Main {
         int opcao;
         boolean sair = false;
         Scanner sc = new Scanner(System.in);
-        while(sair == false) {
+        while(!sair) {
             System.out.println("Bem vindo usuário, selecione uma das opções!\n");
             System.out.println("1 = Adicionar usuário");
             System.out.println("2 = Listar usuários");
@@ -25,36 +26,41 @@ public class Main {
                     System.out.println("insira o E-mail");
                     String mail = sc.nextLine();
                     Usuario user = new Usuario(id,nome,mail);
-                    gerenciador.adicionarUsuario(user);
+                    if(!gerenciador.adicionarUsuario(user)){
+                        System.out.println("Erro: Já existe usuário com esse ID");
+                    }else{
+                        System.out.println("Usuário adicionado com sucesso!");
+                    }
                     break;
                 }
                 case 2: {
-                     gerenciador.obterTodosUsuarios();
-                     break;
+                    List<Usuario> Lista = gerenciador.obterTodosUsuarios();
+                    Lista.forEach(System.out::println);
+                    break;
                 }
                 case 3: {
                     System.out.println("insira o ID do usuario que deseja atualizar");
                     String id = sc.nextLine();
-                    gerenciador.obterUsuarioPorId(id);
-                    if(id == null){
-                        System.out.println("Error: não existe usuário com esse ID");
-                        break;
-                    }
-                    System.out.println("insira o novo ID");
-                    String novoId = sc.nextLine();
                     System.out.println("insira o novo nome");
                     String nome = sc.nextLine();
                     System.out.println("insira o novo E-mail");
                     String mail = sc.nextLine();
-                    Usuario user = new Usuario(novoId,nome,mail);
-                    gerenciador.atualizarUsuario(Integer.parseInt(id),user);
+                    gerenciador.atualizarUsuario(id,nome,mail);
+                    break;
                 }
                 case 4: {
-                   // obterUsuarioPorId(String id);
-                   // removerUsuario(String id);
+                    System.out.println("Insira o ID que deseja remover: ");
+                    String id = sc.nextLine();
+                   gerenciador.removerUsuario(id);
+                   break;
                 }
                 case 5: {
                     sair = true;
+                    sc.close();
+                    break;
+                }
+                default:{
+                    System.out.println("Opção inválida");
                     break;
                 }
 

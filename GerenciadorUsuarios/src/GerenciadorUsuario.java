@@ -1,3 +1,4 @@
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -6,38 +7,47 @@ public class GerenciadorUsuario {
     boolean check =false;
 
     // Métodos de CRUD aqui
-    public void adicionarUsuario(Usuario user){
+    public boolean adicionarUsuario(Usuario user){
         for(int i = 0;i<usuarioList.size();i++){
             if (usuarioList.get(i).getId().equals(user.getId())){
-                check = true;
+                return false;
             }
         }
-        if (check == true){
-            System.out.println("um erro ocorreu: id inserido já está registrado");
-            check = false;
-        }
-        else {
         usuarioList.add(user);
-        }
+        return true;
     }
-    public void obterTodosUsuarios(){
-        for(int i = 0;i<usuarioList.size();i++){
-            System.out.println(usuarioList.get(i));
-
-        }
+    public List<Usuario> obterTodosUsuarios(){
+        return usuarioList;
     }
-    public Integer obterUsuarioPorId(String id){
-        for(int i = 0;i<usuarioList.size();i++){
-            if (usuarioList.get(i).getId().equals(id)){
-                return i;
+    private Usuario obterUsuarioPorId(String id){
+        for(Usuario usuario : usuarioList){
+            if (usuario.getId().equals(id)){
+                return usuario;
             }
         }
         return null;
     }
-    public void atualizarUsuario(int id, Usuario novoid){
-        usuarioList.set(id,novoid);
+    public void atualizarUsuario( String id, String novoNome, String novoEmail){
+        Usuario usuario = obterUsuarioPorId(id);
+        if (usuario != null){
+            usuario.setNome(novoNome);
+            usuario.setEmail(novoEmail);
+        }
     }
-    public void removerUsuario(String id){
+    public void atualizarUsuarioNome( String id, String novoNome){
+        Usuario usuario = obterUsuarioPorId(id);
+        if (usuario != null){
+            usuario.setNome(novoNome);
+        }
+    }
+    public void atualizarUsuarioEmail(String id, String novoEmail){
+        Usuario usuario = obterUsuarioPorId(id);
+        if (usuario != null){
+            usuario.setEmail(novoEmail);
+        }
+    }
 
+    public void removerUsuario(String id){
+        usuarioList.removeIf(usuario -> usuario.getId().equals(id));
     }
 }
